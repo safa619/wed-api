@@ -30,7 +30,12 @@ routes = {
 }
 
 app = FastAPI()
-app.add_middleware(PaymentMiddlewareASGI, routes=routes, server=server)
+app.add_middleware(
+    PaymentMiddlewareASGI,
+    routes=routes,
+    server=server,
+    sync_facilitator_on_start=False,
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
