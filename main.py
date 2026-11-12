@@ -1,9 +1,8 @@
 import os
 
-from cdp.x402 import create_facilitator_config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from x402.http import HTTPFacilitatorClient, PaymentOption
+from x402.http import FacilitatorConfig, HTTPFacilitatorClient, PaymentOption
 from x402.http.middleware.fastapi import PaymentMiddlewareASGI
 from x402.http.types import RouteConfig
 from x402.mechanisms.evm.exact import ExactEvmServerScheme
@@ -12,7 +11,10 @@ from x402.server import x402ResourceServer
 NETWORK = "eip155:8453"  # Base
 PAY_TO = os.environ["X402_PAY_TO"]
 
-server = x402ResourceServer(HTTPFacilitatorClient(create_facilitator_config()))
+facilitator = HTTPFacilitatorClient(
+    FacilitatorConfig(url="https://facilitator.payai.network")
+)
+server = x402ResourceServer(facilitator)
 server.register(NETWORK, ExactEvmServerScheme())
 
 routes = {
