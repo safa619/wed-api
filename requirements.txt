@@ -1,4 +1,3 @@
 fastapi
 uvicorn
-cdp-sdk
 x402[evm,fastapi]
